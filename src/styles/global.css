@@ -40,7 +40,7 @@ a:hover { color: var(--color-ink); }
 :focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; border-radius: 4px; }
 select, input, button { font-family: inherit; }
 
-.page { max-width: 1160px; margin: 0 auto; padding: clamp(40px, 6vw, 72px) 20px 0; }
+.page { max-width: 1320px; margin: 0 auto; padding: clamp(40px, 6vw, 72px) 20px 0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (prefers-reduced-motion: reduce) {

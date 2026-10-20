@@ -65,7 +65,7 @@ const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
     <footer class="pied">
       <div class="pied-contenu">
         <div class="pied-bloc"><strong>Sources et licences</strong><span>AI Energy Score · Apache-2.0</span><span>Compar:IA · Licence Ouverte 2.0</span></div>
-        <div class="pied-bloc"><strong>Équipe</strong><span>Xavier Senente</span><span>Thomas Perruchot</span><span>Bambou Franceschini</span></div>
+        <div class="pied-bloc"><strong>Équipe</strong><span>Thomas Perruchot</span><span>Bambou Franceschini</span></div>
         <div class="pied-bloc">
           <strong>Projet</strong><span>BUT MMI · SAÉ 303</span>
           <span>Défi «&nbsp;Impact environnemental de l'IA générative&nbsp;», Open Data University × ADEME</span>
@@ -80,17 +80,19 @@ const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
   .saut { position: absolute; left: 8px; top: -60px; z-index: 100; background: #fff; padding: 10px 14px; border-radius: 8px; }
   .saut:focus { top: 8px; }
   .entete { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid var(--color-line); }
-  .entete-haut { max-width: 1160px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 52px; border-bottom: 1px solid var(--color-soft); }
+  .entete-haut { max-width: 1320px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 52px; border-bottom: 1px solid var(--color-soft); }
   .marque { font-family: var(--font-serif); font-weight: 700; font-size: 20px; color: var(--color-ink); text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 16px; }
   .pastilles { width: 14px; height: 14px; border-radius: 50%; background: #8e6ff0; box-shadow: 8px 0 0 #6a3fd9; }
   .credit { font-size: 13px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .chapitres { max-width: 1160px; margin: 0 auto; padding: 0 8px; display: flex; overflow-x: auto; scrollbar-width: none; }
+  .chapitres { max-width: 1320px; margin: 0 auto; padding: 0 8px; display: flex; overflow-x: auto; scrollbar-width: none; }
   .chapitre { position: relative; isolation: isolate; flex: none; display: flex; align-items: center; gap: 6px; height: 46px; padding: 0 12px; font-size: 15px; font-weight: 500; color: #111; text-decoration: none; white-space: nowrap; }
+  .chapitre:first-child { margin-left: auto; }
+  .chapitre:last-child { margin-right: auto; }
   .chapitre:hover { color: var(--color-primary); }
   .chapitre .num { font-size: 13px; color: #555; }
   .chapitre.actif::before { content: ""; position: absolute; z-index: -1; inset: 8px 4px; border-radius: 999px; background: var(--color-soft); box-shadow: inset 0 0 0 1.5px #8e6ff0; }
   main { min-height: 70vh; }
-  .pagination { max-width: 1160px; margin: clamp(56px, 7vw, 88px) auto 0; padding: 0 20px; }
+  .pagination { max-width: 1320px; margin: clamp(56px, 7vw, 88px) auto 0; padding: 0 20px; }
   .pagination-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
   .carte-nav { display: flex; flex-direction: column; gap: 2px; padding: 20px 24px; border-radius: 20px; background: var(--color-soft); color: var(--color-ink); text-decoration: none; transition: transform 0.25s, background 0.25s; }
   .carte-nav:hover { background: var(--color-line); color: var(--color-ink); transform: translateY(-3px); }
@@ -98,7 +100,7 @@ const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
   .carte-nav .sens { font-size: 14px; color: #555; }
   .carte-nav .titre { font-family: var(--font-serif); font-weight: 600; font-size: 20px; }
   .pied { margin-top: 56px; background: var(--color-ink); border-radius: 32px 32px 0 0; padding: 48px 20px 40px; font-size: 15px; color: #e9e3ff; }
-  .pied-contenu { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 24px 40px; }
+  .pied-contenu { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 24px 40px; }
   .pied-bloc { display: flex; flex-direction: column; gap: 6px; }
   .pied-bloc strong { color: #fff; }
   .pied a { color: var(--color-accent); }
