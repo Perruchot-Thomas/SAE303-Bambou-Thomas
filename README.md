@@ -7,7 +7,7 @@
 
 # Remarques :
 
-Site Astro « IA de l'électricité dans l'air » : un récit en 4 temps (contexte → exploration → révélation → conclusion) qui compare l'électricité **mesurée** en laboratoire (AI Energy Score) et **estimée** sur de vraies conversations (Compar:IA).
+Site Astro « Comprendre l'électricité de l'IA » : un récit en 4 temps (contexte → exploration → révélation → conclusion) qui compare l'électricité **mesurée** en laboratoire (AI Energy Score) et **estimée** sur de vraies conversations (Compar:IA).
 
 - **Navigation** : 7 pages (accueil, 4 visualisations, conclusion, méthode), menu des chapitres avec page courante signalée (`aria-current`), liens précédent / suivant, lien d'évitement « Aller au contenu ». Code : [layout](src/layouts/Layout.astro).
 - **Routes d'export** : V1, V2 et V3 sont rendues au build (HTML/CSS statique, aucun JavaScript). V4 est un calculateur recalculé chez le lecteur, car c'est la seule qui doit bouger. Justification détaillée sur la page [Méthode](src/pages/methode.astro).
