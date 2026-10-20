@@ -68,10 +68,8 @@ const alt = `Deux panneaux de deux barres verticales pour deux modèles de 70 mi
   .barres { height: 280px; display: flex; align-items: flex-end; justify-content: space-around; border-bottom: 1px solid #111; }
   .colonne { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; }
   .val { font-size: 13px; color: #555; text-align: center; }
-  .barre { width: 100%; transform-origin: center bottom; animation: monte 1.1s cubic-bezier(.2, .7, .2, 1) both; }
+  .barre { width: 100%; }
   .noms { display: flex; justify-content: space-around; font-size: 14px; text-align: center; gap: 8px; }
   .verdict { margin: 4px 0 0; font-family: var(--font-serif, "Source Serif 4", Georgia, serif); font-weight: 700; font-size: 22px; }
   figcaption { padding-top: 10px; border-top: 1px solid #e3e3e3; font-size: 14px; color: #555; }
-  @keyframes monte { from { transform: scaleY(0); } }
-  @media (prefers-reduced-motion: reduce) { .barre { animation: none; } }
 </style>

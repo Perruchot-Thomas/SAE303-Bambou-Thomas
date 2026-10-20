@@ -25,7 +25,7 @@ const natures = [
           <span class="auteurs">Par <strong>Xavier Senente, Thomas Perruchot et Bambou Franceschini</strong> · BUT MMI, SAÉ 303</span>
         </div>
       </div>
-      <div aria-hidden="true" class="barres">
+      <div aria-hidden="true" class="barres" data-hero>
         {barres.map(([h, c]) => <span style={`height:${h}%;background:${c}`}></span>)}
       </div>
     </section>
@@ -76,8 +76,7 @@ const natures = [
   .auteurs { font-size: 15px; color: var(--color-line); }
   .auteurs strong { color: #fff; font-weight: 600; }
   .barres { display: flex; align-items: flex-end; gap: clamp(5px, 1vw, 12px); height: clamp(90px, 13vw, 160px); }
-  .barres span { flex: 1; border-radius: 999px 999px 0 0; transform-origin: center bottom; animation: monte 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  @keyframes monte { from { transform: scaleY(0); } }
+  .barres span { flex: 1; border-radius: 999px 999px 0 0; }
   .bloc { margin-top: clamp(48px, 6vw, 80px); display: flex; flex-direction: column; gap: 20px; }
   h2 { margin: 0; font-family: var(--font-serif); font-weight: 700; font-size: clamp(26px, 3vw, 34px); line-height: 1.15; }
   .bloc > p { margin: 0; max-width: 720px; }
@@ -96,5 +95,4 @@ const natures = [
   .sommaire a:hover { color: var(--color-primary); }
   .rond { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--color-soft); color: var(--color-primary); font-weight: 700; font-size: 15px; }
   .titre { font-family: var(--font-serif); font-weight: 600; font-size: clamp(19px, 2vw, 23px); line-height: 1.3; }
-  @media (prefers-reduced-motion: reduce) { .barres span { animation: none; } }
 </style>

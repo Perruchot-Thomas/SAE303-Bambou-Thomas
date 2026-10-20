@@ -51,15 +51,13 @@ const alt = `Graphique de barres horizontales : une barre par tâche, de la plus
   .rang { display: grid; grid-template-columns: minmax(150px, 1fr) 3fr 76px; gap: 10px 20px; align-items: center; }
   .nom { font-size: 16px; }
   .piste { display: block; height: 22px; border-left: 1px solid #111; }
-  .barre { display: block; height: 100%; background: var(--data-mesure, #6a3fd9); transform-origin: left center; animation: pousse 1.1s cubic-bezier(.2, .7, .2, 1) both; }
+  .barre { display: block; height: 100%; background: var(--data-mesure, #6a3fd9); }
   .valeur { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .axe { margin-top: -4px; }
   .graduations { position: relative; height: 28px; border-left: 0; border-top: 1px solid #111; font-size: 13px; color: #555; }
   .graduations span { position: absolute; top: 5px; transform: translateX(-50%); }
   .graduations span:last-child { transform: translateX(-100%); }
   figcaption { padding-top: 10px; border-top: 1px solid #e3e3e3; font-size: 14px; color: #555; }
-  @keyframes pousse { from { transform: scaleX(0); } }
-  @media (prefers-reduced-motion: reduce) { .barre { animation: none; } }
   @media (max-width: 640px) {
     .rang { grid-template-columns: 1fr 64px; }
     .nom { grid-column: 1 / -1; }
