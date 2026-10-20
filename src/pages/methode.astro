@@ -1,0 +1,136 @@
+---
+// Page Méthode : la parade du CM5, tout ce qui est publié peut être vérifié.
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import { chiffres } from "../lib/donnees.js";
+
+const NOTEBOOK = "https://observablehq.com/@mmi-montbeliard/sae-303-gr-21";
+const nb = (n) => n.toLocaleString("fr-FR");
+
+const sources = [
+  { nom: "AI Energy Score", producteur: "Projet ouvert hébergé sur Hugging Face", nature: "Mesuré", couleur: "var(--data-mesure, #6a3fd9)", usage: "Visualisations 1 à 4", licence: "Apache-2.0 (déclarée pour le dépôt)", date: "Campagnes de février et décembre 2025", url: "https://huggingface.co/spaces/AIEnergyScore/Leaderboard" },
+  { nom: "Compar:IA", producteur: "Ministère de la Culture, jeu publié sur data.gouv.fr", nature: "Estimé", couleur: "var(--data-estime, #e0457b)", usage: "Visualisations 2, 3 et 4", licence: "Licence Ouverte 2.0", date: "Échantillon de 10 000 conversations, jeu mis à jour le 3 juin 2026", url: "https://www.data.gouv.fr/datasets/compar-ia" },
+];
+
+const traitements = [
+  `AI Energy Score : ${chiffres.aes.lignes_brutes} mesures lues, ${chiffres.aes.lignes_brutes - chiffres.aes.lignes_lisibles} valeur illisible. Le niveau de raisonnement des deux modèles gpt-oss est séparé du nom du modèle.`,
+  `Deux campagnes de mesure (février et décembre 2025) ne sont jamais mélangées : ${chiffres.aes.mesures_fevrier_texte_ecartees} mesures de février en génération de texte sont mises de côté, ${chiffres.aes.mesures_comparables} mesures restent.`,
+  `Compar:IA : ${chiffres.comparia.conversations_retirees} conversation retirée (colonne « mode » corrompue). Chaque conversation compare deux modèles : elle est séparée en deux réponses (côté A et B), soit ${nb(chiffres.comparia.reponses)} réponses.`,
+  `${nb(chiffres.comparia.reponses_sans_kwh)} réponses n'ont aucune estimation d'électricité ; elles ne comptent pas dans les calculs. ${nb(chiffres.comparia.reponses_utilisables)} réponses sont utilisables.`,
+  `Jointure mesure ↔ estimation : les ${chiffres.comparia.modeles_appaires} modèles présents dans les deux sources ont été reliés à la main, un par un. Un rapprochement automatique par ressemblance de noms fabriquait de fausses paires.`,
+  `Raisonnement : même modèle, même campagne, rapport entre l'énergie avec et sans raisonnement (${chiffres.raisonnement.modeles_laboratoire} modèles). Côté conversations, rapport des tokens médians pour les ${chiffres.raisonnement.modeles_conversations} modèles qui ont au moins 10 réponses avec et 10 sans raisonnement.`,
+  `${chiffres.raisonnement.anomalies.join(", ")} consomme autant avec que sans raisonnement (×1), sans explication dans les données : il est montré mais écarté de la fourchette.`,
+];
+
+const limites = [
+  ["L'estimation n'est qu'une formule.", "Pour la plupart des modèles, l'électricité estimée par Compar:IA vaut simplement le nombre de tokens multiplié par un coefficient fixe. La corrélation entre kWh et tokens est donc construite : elle ne prouve rien."],
+  ["Deux unités qui ne se comparent pas.", "Le laboratoire donne des Wh par requête de test, l'estimation des Wh pour 1 000 tokens. On ne les compare que par leurs rangs et leurs écarts, jamais par leurs valeurs."],
+  ["Le laboratoire n'est pas la vie réelle.", "Chaque modèle répond à 1 000 requêtes standard sur une carte NVIDIA H100, une par une. Seule l'énergie de cette carte est mesurée."],
+  ["Un échantillon de volontaires.", "Les conversations Compar:IA viennent de personnes qui choisissent de comparer des modèles : ce n'est pas un échantillon représentatif des usages."],
+  ["Neuf modèles seulement.", "Seuls neuf modèles sont présents dans les deux sources ; l'estimation de certains repose sur peu de réponses (Apertus-8B : 7)."],
+  ["Les assistants du grand public manquent.", "ChatGPT, Gemini, Claude ou Le Chat ne sont pas mesurés de façon indépendante dans AI Energy Score."],
+  ["Ce qui n'est pas compté.", "L'entraînement des modèles, la fabrication du matériel, le refroidissement, l'eau et le réseau."],
+];
+
+const routes = [
+  ["V1 · Une requête, c'est combien ?", "A · au build", "Rien ne bouge chez le lecteur : la figure est identique pour tous. HTML et CSS statiques, aucun JavaScript."],
+  ["V2 · Mesure ou estimation", "A · au build", "Deux modèles, deux chiffres : la comparaison est fixe, il n'y a rien à régler."],
+  ["V3 · Raisonnement", "A · au build", "Lecture comparative de 22 barres ; pas d'interaction utile, un rendu statique est plus léger et accessible."],
+  ["V4 · Mon usage", "B · chez le lecteur", "C'est la seule qui doit bouger : le lecteur règle un modèle et un nombre de questions et voit son résultat. Les données sont embarquées et recalculées dans le navigateur."],
+];
+
+const fichiers = [
+  ["taches.json", "Valeur médiane par tâche, en secondes d'ampoule LED (V1)"],
+  ["paires.json", "Neuf modèles mesurés et estimés (V2, V4)"],
+  ["raisonnement.json", "Facteurs du raisonnement, laboratoire et conversations (V3)"],
+  ["chiffres.json", "Effectifs et contrôles du traitement (cette page)"],
+];
+---
+
+<Layout title="Méthode et sources · L'électricité de l'IA" description="Sources, traitements, limites et données téléchargeables du site." current="methode">
+  <PageHero badge="Méthode" title="Méthode et sources">
+    <p>Les jeux de données utilisés, la nature de leurs chiffres, les traitements appliqués et ce qu'ils ne permettent pas de dire.</p>
+  </PageHero>
+
+  <article class="methode">
+    <section>
+      <h2>Les deux sources des graphiques</h2>
+      <div class="defile">
+        <table>
+          <caption class="sr-only">Sources de données, nature, licence et date</caption>
+          <thead><tr><th scope="col">Source</th><th scope="col">Nature</th><th scope="col">Utilisée pour</th><th scope="col">Licence</th><th scope="col">Version</th></tr></thead>
+          <tbody>
+            {sources.map((s) => (
+              <tr>
+                <th scope="row"><a href={s.url} rel="noopener">{s.nom}</a><br /><small>{s.producteur}</small></th>
+                <td><span class="nature"><span class="carre" style={`background:${s.couleur}`}></span>{s.nature}</span></td>
+                <td>{s.usage}</td>
+                <td>{s.licence}</td>
+                <td>{s.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Un chiffre <strong>mesuré</strong> dit ce qu'un ordinateur a consommé pour un test précis. Un chiffre <strong>estimé</strong> dit ce qu'une formule attribue à une conversation réelle.
+        Un chiffre <strong>déclaré</strong> dit ce que quelqu'un affirme. Aucun ne dit la consommation d'un centre de données qui répond à de vraies questions.
+      </p>
+      <p class="note">
+        Le notebook utilise aussi deux jeux pour une carte d'ouverture (OpenStreetMap, centres de données déclarés, licence ODbL ; consommation annuelle par zone IRIS, data.gouv.fr, Licence Ouverte 2.0).
+        Cette carte ne figure pas sur le site : ces données n'y sont donc ni publiées ni téléchargeables.
+      </p>
+    </section>
+
+    <section>
+      <h2>Traitements appliqués</h2>
+      <ol class="liste">{traitements.map((t) => <li>{t}</li>)}</ol>
+      <p>Conversion d'unité, posée par nous : <strong>1&nbsp;Wh = une ampoule LED de 10&nbsp;W allumée 6&nbsp;minutes</strong>. Les fichiers du site contiennent donc des secondes d'ampoule, arrondies à deux décimales.</p>
+    </section>
+
+    <section>
+      <h2>Limites et biais identifiés</h2>
+      <ul class="liste">{limites.map(([titre, texte]) => <li><strong>{titre}</strong> {texte}</li>)}</ul>
+    </section>
+
+    <section>
+      <h2>Pourquoi chaque visualisation est exportée ainsi</h2>
+      <p>La question qui tranche&nbsp;: est-ce que ça doit bouger chez le lecteur&nbsp;?</p>
+      <div class="defile">
+        <table>
+          <caption class="sr-only">Route d'export retenue pour chaque visualisation</caption>
+          <thead><tr><th scope="col">Visualisation</th><th scope="col">Route</th><th scope="col">Justification</th></tr></thead>
+          <tbody>{routes.map(([v, r, j]) => <tr><th scope="row">{v}</th><td>{r}</td><td>{j}</td></tr>)}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Vérifier et réutiliser</h2>
+      <p>
+        Tout le traitement (nettoyage, jointures, calculs) est détaillé dans le
+        <a href={NOTEBOOK} rel="noopener">notebook Observable de l'équipe</a>. Les fichiers ci-dessous sont les seules données du site&nbsp;: colonnes utiles, dénominateur conservé, deux décimales. Les fichiers bruts du défi ne sont pas publiés ici.
+      </p>
+      <ul class="liste">
+        {fichiers.map(([f, d]) => <li><a href={`/data/${f}`} download>{f}</a>&nbsp;: {d}</li>)}
+      </ul>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .methode { max-width: 1160px; margin: 0 auto; padding: 40px 20px 0; display: flex; flex-direction: column; gap: 48px; }
+  section { display: flex; flex-direction: column; gap: 14px; max-width: 860px; }
+  h2 { margin: 0; font-family: var(--font-serif, "Source Serif 4", Georgia, serif); font-weight: 700; font-size: 26px; }
+  p { margin: 0; }
+  .note { font-size: 15px; color: #555; }
+  .defile { overflow-x: auto; border-top: 2px solid #111; }
+  table { width: 100%; min-width: 680px; border-collapse: collapse; text-align: left; font-size: 16px; }
+  th, td { padding: 14px 16px 14px 0; border-bottom: 1px solid #e3e3e3; vertical-align: top; font-weight: 400; }
+  thead th { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #555; border-bottom: 1px solid #111; }
+  tbody th { font-weight: 600; }
+  small { color: #555; font-weight: 400; }
+  .nature { display: inline-flex; align-items: center; gap: 8px; }
+  .carre { width: 10px; height: 10px; display: inline-block; }
+  .liste { margin: 0; padding: 0 0 0 22px; display: flex; flex-direction: column; gap: 10px; }
+</style>

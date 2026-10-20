@@ -1,0 +1,131 @@
+{
+ "laboratoire": [
+  {
+   "modele": "SmolLM3-3B",
+   "facteur": 697.07,
+   "ecarte": false
+  },
+  {
+   "modele": "Phi-4-reasoning-plus",
+   "facteur": 513.66,
+   "ecarte": false
+  },
+  {
+   "modele": "Hunyuan-1.8B-Instruct",
+   "facteur": 352.13,
+   "ecarte": false
+  },
+  {
+   "modele": "EXAONE-4.0-32B",
+   "facteur": 348.61,
+   "ecarte": false
+  },
+  {
+   "modele": "gemma-3-4b-pt",
+   "facteur": 343.48,
+   "ecarte": false
+  },
+  {
+   "modele": "Qwen3-30B-A3B",
+   "facteur": 297.75,
+   "ecarte": false
+  },
+  {
+   "modele": "DeepSeek-R1-Distill-Llama-70B",
+   "facteur": 153.98,
+   "ecarte": false
+  },
+  {
+   "modele": "DeepSeek-R1-Distill-Qwen-32B",
+   "facteur": 130.73,
+   "ecarte": false
+  },
+  {
+   "modele": "Qwen3-0.6B",
+   "facteur": 46.24,
+   "ecarte": false
+  },
+  {
+   "modele": "Qwen3-235B-A22B",
+   "facteur": 0.98,
+   "ecarte": true
+  }
+ ],
+ "conversations": [
+  {
+   "modele": "gpt-oss-20b",
+   "facteur": 7.73,
+   "n_raisonnement": 145,
+   "n_sans": 24
+  },
+  {
+   "modele": "gpt-5-mini",
+   "facteur": 2.65,
+   "n_raisonnement": 62,
+   "n_sans": 68
+  },
+  {
+   "modele": "gpt-5",
+   "facteur": 2.65,
+   "n_raisonnement": 24,
+   "n_sans": 64
+  },
+  {
+   "modele": "gpt-5-nano",
+   "facteur": 2.64,
+   "n_raisonnement": 56,
+   "n_sans": 24
+  },
+  {
+   "modele": "gpt-5.2",
+   "facteur": 2.35,
+   "n_raisonnement": 17,
+   "n_sans": 81
+  },
+  {
+   "modele": "qwen3-30b-a3b",
+   "facteur": 1.86,
+   "n_raisonnement": 17,
+   "n_sans": 26
+  },
+  {
+   "modele": "gpt-oss-120b",
+   "facteur": 1.46,
+   "n_raisonnement": 129,
+   "n_sans": 18
+  },
+  {
+   "modele": "deepseek-r1",
+   "facteur": 1.38,
+   "n_raisonnement": 178,
+   "n_sans": 12
+  },
+  {
+   "modele": "deepseek-r1-0528",
+   "facteur": 1.25,
+   "n_raisonnement": 74,
+   "n_sans": 29
+  },
+  {
+   "modele": "o4-mini",
+   "facteur": 1.19,
+   "n_raisonnement": 65,
+   "n_sans": 97
+  },
+  {
+   "modele": "glm-4.5",
+   "facteur": 0.97,
+   "n_raisonnement": 22,
+   "n_sans": 30
+  },
+  {
+   "modele": "grok-4.1-fast",
+   "facteur": 0.32,
+   "n_raisonnement": 175,
+   "n_sans": 47
+  }
+ ],
+ "anomalies": [
+  "Qwen3-235B-A22B"
+ ]
+}

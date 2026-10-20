@@ -1,6 +1,116 @@
 ---
-// CONTRAT : ce composant est écrit par la branche feature/visus-methode.
-// Il est importé par les pages de la branche Intro-structure. Ne pas changer son nom ni ses props (aucune).
+// V4 · Route d'export B : calcul CHEZ LE LECTEUR (un petit script, les données sont embarquées dans la page).
+// Pourquoi : c'est la seule visualisation qui doit bouger, le lecteur règle un modèle et un nombre de questions
+// et voit son propre résultat. Les valeurs de départ sont calculées au build : sans JavaScript, la page reste lisible.
+import { paires } from "../../lib/donnees.js";
+
+const modeles = paires.map((p) => ({ nom: p.modele, labo: p.mesure_s, est: p.estimation_s, n: p.n_reponses }));
+const depart = modeles.find((m) => m.nom === "gemma-3-4b") ?? modeles[0];
+const q0 = 10;
+const heures = (s, q) => (q * 365 * s) / 3600;
+const h = (x) => x.toLocaleString("fr-FR", { maximumFractionDigits: x < 10 ? 1 : 0 });
+const lab0 = heures(depart.labo, q0), est0 = heures(depart.est, q0), max0 = Math.max(lab0, est0);
 ---
 
-<p>Visualisation à venir (V4Usage).</p>
+<figure class="viz" aria-labelledby="v4-legende" data-usage>
+  <div class="lire">
+    <strong>Comment lire ce calculateur</strong>
+    <p>
+      Choisissez un modèle et le nombre de questions que vous posez chaque jour. Les deux barres traduisent une année d'usage en heures d'ampoule LED de 10&nbsp;W allumée,
+      selon chacune des deux sources. Repère&nbsp;: 100&nbsp;heures d'ampoule allumée, c'est environ 4&nbsp;jours.
+    </p>
+  </div>
+
+  <div class="reglages">
+    <label>
+      <span class="etiquette">Modèle</span>
+      <select id="usage-modele" aria-describedby="usage-alerte">
+        {modeles.map((m) => <option value={m.nom} selected={m.nom === depart.nom}>{m.nom}</option>)}
+      </select>
+    </label>
+    <label>
+      <span class="etiquette">Questions par jour <output id="usage-q" class="q">{q0}</output></span>
+      <input id="usage-questions" type="range" min="1" max="100" step="1" value={q0} />
+      <span class="bornes"><span>1</span><span>100</span></span>
+    </label>
+  </div>
+
+  <div class="resultats">
+    <div class="resultat">
+      <span class="etiquette"><span class="carre" style="background:var(--data-mesure, #6a3fd9)"></span>Selon le laboratoire · AI Energy Score</span>
+      <div class="ligne">
+        <div class="rail"><div id="usage-barre-labo" class="remplissage" style={`width:${(lab0 / max0) * 100}%;background:var(--data-mesure, #6a3fd9)`}></div></div>
+        <span class="chiffre"><span id="usage-h-labo">{h(lab0)}</span>&nbsp;h</span>
+      </div>
+    </div>
+    <div class="resultat">
+      <span class="etiquette"><span class="carre" style="background:var(--data-estime, #e0457b)"></span>Selon l'estimation · Compar:IA</span>
+      <div class="ligne">
+        <div class="rail"><div id="usage-barre-est" class="remplissage" style={`width:${(est0 / max0) * 100}%;background:var(--data-estime, #e0457b)`}></div></div>
+        <span class="chiffre"><span id="usage-h-est">{h(est0)}</span>&nbsp;h</span>
+      </div>
+    </div>
+    <p id="usage-alerte" class="alerte" hidden></p>
+  </div>
+
+  <figcaption id="v4-legende">
+    Sources&nbsp;: AI Energy Score (mesuré, énergie des GPU seulement, décembre 2025), Compar:IA (estimé, médiane des réponses du modèle). Calcul&nbsp;: questions par jour × 365 × énergie d'une réponse, avec 1&nbsp;Wh = 6&nbsp;minutes d'ampoule de 10&nbsp;W.
+    Ordre de grandeur, pas une facture.
+  </figcaption>
+
+  <script type="application/json" id="usage-donnees" set:html={JSON.stringify(modeles)} />
+</figure>
+
+<script>
+  const el = (id) => document.getElementById(id);
+  const donnees = JSON.parse(el("usage-donnees").textContent);
+  const selection = el("usage-modele"), curseur = el("usage-questions");
+  const fmt = (x) => x.toLocaleString("fr-FR", { maximumFractionDigits: x < 10 ? 1 : 0 });
+
+  function maj() {
+    const m = donnees.find((d) => d.nom === selection.value);
+    const q = Number(curseur.value);
+    const lab = (q * 365 * m.labo) / 3600, est = (q * 365 * m.est) / 3600, max = Math.max(lab, est);
+    el("usage-q").textContent = q;
+    el("usage-h-labo").textContent = fmt(lab);
+    el("usage-h-est").textContent = fmt(est);
+    el("usage-barre-labo").style.width = (lab / max) * 100 + "%";
+    el("usage-barre-est").style.width = (est / max) * 100 + "%";
+    const alerte = el("usage-alerte");
+    alerte.hidden = m.n >= 30;
+    alerte.textContent = m.n < 30 ? `Attention : l'estimation de ce modèle repose sur ${m.n} réponses seulement.` : "";
+    // l'accroche de la page (hors de ce composant) suit le calcul
+    const resume = document.getElementById("usage-resume");
+    if (resume) {
+      resume.textContent = `Avec ${q} question${q > 1 ? "s" : ""} par jour à ${m.nom}, une ampoule LED resterait allumée ${fmt(lab)} heures par an selon le laboratoire, contre ${fmt(est)} heures selon l'estimation.`;
+    }
+  }
+  selection.addEventListener("change", maj);
+  curseur.addEventListener("input", maj);
+  maj();
+</script>
+
+<style>
+  .viz { margin: 40px 0 0; padding-top: 20px; border-top: 3px solid var(--color-ink, #2a1475); display: flex; flex-direction: column; gap: 28px; }
+  .lire { max-width: 760px; display: flex; flex-direction: column; gap: 4px; }
+  .lire strong { font-size: 15px; }
+  .lire p { margin: 0; font-size: 16px; color: #333; }
+  .reglages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px 48px; align-items: end; max-width: 900px; }
+  label { display: flex; flex-direction: column; gap: 8px; }
+  .etiquette { display: flex; align-items: center; gap: 8px; justify-content: space-between; font-size: 15px; font-weight: 600; }
+  .q { font-family: var(--font-serif, "Source Serif 4", Georgia, serif); font-size: 28px; font-weight: 700; }
+  select { height: 52px; padding: 0 12px; border: 2px solid var(--color-ink, #2a1475); border-radius: 14px; background: #fff; font-size: 17px; color: #111; cursor: pointer; }
+  input[type="range"] { width: 100%; height: 48px; margin: 0; accent-color: var(--color-primary, #5b3cc4); cursor: pointer; }
+  .bornes { display: flex; justify-content: space-between; font-size: 13px; color: #555; }
+  .resultats { display: flex; flex-direction: column; gap: 18px; max-width: 900px; }
+  .resultat { display: flex; flex-direction: column; gap: 6px; }
+  .carre { width: 12px; height: 12px; display: inline-block; }
+  .resultat .etiquette { justify-content: flex-start; }
+  .ligne { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+  .rail { height: 36px; border-radius: 999px; overflow: hidden; background: #efeafd; }
+  .remplissage { height: 100%; border-radius: 999px; transition: width 0.25s; }
+  .chiffre { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .alerte { margin: 0; font-size: 14px; color: #7a3b00; background: #fff4e5; border-radius: 10px; padding: 8px 12px; }
+  figcaption { padding-top: 10px; border-top: 1px solid #e3e3e3; font-size: 14px; color: #555; }
+  @media (prefers-reduced-motion: reduce) { .remplissage { transition: none; } }
+</style>

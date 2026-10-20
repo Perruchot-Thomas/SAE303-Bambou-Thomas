@@ -1,6 +1,77 @@
 ---
-// CONTRAT : ce composant est écrit par la branche feature/visus-methode.
-// Il est importé par les pages de la branche Intro-structure. Ne pas changer son nom ni ses props (aucune).
+// V2 · Route d'export A : rendu au BUILD, HTML/CSS statique sans JavaScript.
+// Pourquoi : deux modèles, deux chiffres, aucune interaction utile ; la figure ne bouge pas chez le lecteur.
+import { paires } from "../../lib/donnees.js";
+import { fr } from "../../lib/format.js";
+
+const deux = paires.filter((p) => p.taille_70_milliards);
+const ecart = Math.round(Math.max(...deux.map((p) => p.mesure_s)) / Math.min(...deux.map((p) => p.mesure_s)));
+const hauteur = (v, max) => Math.max(4, (v / max) * 100);
+const maxEst = Math.max(...deux.map((p) => p.estimation_wh_1000_tokens));
+const maxMes = Math.max(...deux.map((p) => p.mesure_wh));
+const nom = (m) => m.replace(/-Instruct-2509/, "").replace(/^deepseek-r1-distill-llama-70b$/, "DeepSeek-R1 Distill 70B");
+const alt = `Deux panneaux de deux barres verticales pour deux modèles de 70 milliards de paramètres (${deux.map((p) => nom(p.modele)).join(" et ")}). Panneau estimé : les deux barres sont identiques (${fr(deux[0].estimation_wh_1000_tokens)} Wh pour 1 000 tokens). Panneau mesuré : ${fr(deux[0].mesure_wh)} Wh et ${fr(deux[1].mesure_wh)} Wh par requête, soit un écart de ×${ecart}.`;
 ---
 
-<p>Visualisation à venir (V2Mesure).</p>
+<figure class="viz" aria-labelledby="v2-legende">
+  <div class="lire">
+    <strong>Comment lire ce graphique</strong>
+    <p>
+      Les deux modèles ont la même taille&nbsp;: 70&nbsp;milliards de paramètres (les réglages internes du modèle). À gauche, ce que calcule l'estimation. À droite, ce que lit le compteur en laboratoire.
+      Plus la barre est haute, plus la requête consomme. Chaque panneau a sa propre échelle, car les deux unités ne sont pas les mêmes&nbsp;: ce sont les écarts qui se comparent.
+    </p>
+  </div>
+  <p class="sr-only">{alt}</p>
+  <div class="panneaux">
+    <div class="panneau">
+      <strong class="titre"><span class="carre" style="background:var(--data-estime, #e0457b)"></span>Estimé · Compar:IA</strong>
+      <div class="barres">
+        {deux.map((p) => (
+          <div class="colonne">
+            <span class="val">{fr(p.estimation_wh_1000_tokens)}&nbsp;Wh / 1&nbsp;000&nbsp;tokens</span>
+            <div class="barre" data-bar="y" style={`height:${hauteur(p.estimation_wh_1000_tokens, maxEst)}%;background:var(--data-estime, #e0457b)`}></div>
+          </div>
+        ))}
+      </div>
+      <div class="noms">{deux.map((p) => <span>{nom(p.modele)}</span>)}</div>
+      <p class="verdict">Même chiffre</p>
+    </div>
+    <div class="panneau">
+      <strong class="titre"><span class="carre" style="background:var(--data-mesure, #6a3fd9)"></span>Mesuré · AI Energy Score</strong>
+      <div class="barres">
+        {deux.map((p) => (
+          <div class="colonne">
+            <span class="val">{fr(p.mesure_wh)}&nbsp;Wh / requête</span>
+            <div class="barre" data-bar="y" style={`height:${hauteur(p.mesure_wh, maxMes)}%;background:var(--data-mesure, #6a3fd9)`}></div>
+          </div>
+        ))}
+      </div>
+      <div class="noms">{deux.map((p) => <span>{nom(p.modele)}</span>)}</div>
+      <p class="verdict">Écart&nbsp;: ×{ecart}</p>
+    </div>
+  </div>
+  <figcaption id="v2-legende">
+    Sources&nbsp;: Compar:IA (estimé, médiane des réponses du modèle), AI Energy Score (mesuré, décembre 2025). Échelles séparées pour les deux panneaux (Wh pour 1&nbsp;000 tokens d'un côté, Wh par requête de test de l'autre).
+    Appariement des modèles fait à la main par l'équipe.
+  </figcaption>
+</figure>
+
+<style>
+  .viz { margin: 40px 0 0; padding-top: 20px; border-top: 3px solid var(--color-ink, #2a1475); display: flex; flex-direction: column; gap: 24px; }
+  .lire { max-width: 760px; display: flex; flex-direction: column; gap: 4px; }
+  .lire strong { font-size: 15px; }
+  .lire p { margin: 0; font-size: 16px; color: #333; }
+  .panneaux { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 40px 64px; max-width: 880px; }
+  .panneau { display: flex; flex-direction: column; gap: 10px; }
+  .titre { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+  .carre { width: 12px; height: 12px; display: inline-block; }
+  .barres { height: 280px; display: flex; align-items: flex-end; justify-content: space-around; border-bottom: 1px solid #111; }
+  .colonne { width: 40%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; }
+  .val { font-size: 13px; color: #555; text-align: center; }
+  .barre { width: 100%; transform-origin: center bottom; animation: monte 1.1s cubic-bezier(.2, .7, .2, 1) both; }
+  .noms { display: flex; justify-content: space-around; font-size: 14px; text-align: center; gap: 8px; }
+  .verdict { margin: 4px 0 0; font-family: var(--font-serif, "Source Serif 4", Georgia, serif); font-weight: 700; font-size: 22px; }
+  figcaption { padding-top: 10px; border-top: 1px solid #e3e3e3; font-size: 14px; color: #555; }
+  @keyframes monte { from { transform: scaleY(0); } }
+  @media (prefers-reduced-motion: reduce) { .barre { animation: none; } }
+</style>

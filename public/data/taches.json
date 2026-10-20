@@ -1,0 +1,90 @@
+[
+ {
+  "tache": "reasoning",
+  "libelle": "Raisonnement (texte)",
+  "famille": "Texte",
+  "n_modeles": 18,
+  "secondes": 1948.49,
+  "ecart_max_min": 71
+ },
+ {
+  "tache": "image_generation",
+  "libelle": "Génération d'images",
+  "famille": "Image",
+  "n_modeles": 12,
+  "secondes": 127.37,
+  "ecart_max_min": 9
+ },
+ {
+  "tache": "image_captioning",
+  "libelle": "Légendage d'images",
+  "famille": "Image",
+  "n_modeles": 10,
+  "secondes": 36.63,
+  "ecart_max_min": 4
+ },
+ {
+  "tache": "text_generation",
+  "libelle": "Génération de texte (réponse directe)",
+  "famille": "Texte",
+  "n_modeles": 22,
+  "secondes": 12.78,
+  "ecart_max_min": 303
+ },
+ {
+  "tache": "asr",
+  "libelle": "Reconnaissance de la parole",
+  "famille": "Parole",
+  "n_modeles": 13,
+  "secondes": 5.96,
+  "ecart_max_min": 140
+ },
+ {
+  "tache": "summarization",
+  "libelle": "Résumé de texte",
+  "famille": "Texte",
+  "n_modeles": 11,
+  "secondes": 1.27,
+  "ecart_max_min": 44
+ },
+ {
+  "tache": "object_detection",
+  "libelle": "Détection d'objets",
+  "famille": "Image",
+  "n_modeles": 7,
+  "secondes": 1.18,
+  "ecart_max_min": 8
+ },
+ {
+  "tache": "question_answering",
+  "libelle": "Réponse à des questions",
+  "famille": "Texte",
+  "n_modeles": 18,
+  "secondes": 0.36,
+  "ecart_max_min": 3215
+ },
+ {
+  "tache": "image_classification",
+  "libelle": "Classification d'images",
+  "famille": "Image",
+  "n_modeles": 23,
+  "secondes": 0.3,
+  "ecart_max_min": 9
+ },
+ {
+  "tache": "text_classification",
+  "libelle": "Classification de texte",
+  "famille": "Texte",
+  "n_modeles": 13,
+  "secondes": 0.29,
+  "ecart_max_min": 129
+ },
+ {
+  "tache": "sentence_similarity",
+  "libelle": "Similarité de phrases",
+  "famille": "Texte",
+  "n_modeles": 19,
+  "secondes": 0.21,
+  "ecart_max_min": 49
+ }
+]

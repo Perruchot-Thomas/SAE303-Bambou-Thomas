@@ -1,0 +1,26 @@
+{
+ "aes": {
+  "lignes_brutes": 206,
+  "lignes_lisibles": 206,
+  "taches": 11,
+  "mesures_fevrier_texte_ecartees": 40,
+  "mesures_comparables": 166
+ },
+ "comparia": {
+  "conversations_brutes": 10000,
+  "conversations_retirees": 1,
+  "conversations": 9999,
+  "reponses": 19998,
+  "reponses_sans_kwh": 1516,
+  "reponses_utilisables": 18326,
+  "modeles": 119,
+  "modeles_appaires": 9
+ },
+ "raisonnement": {
+  "modeles_laboratoire": 10,
+  "modeles_conversations": 12,
+  "anomalies": [
+   "Qwen3-235B-A22B"
+  ]
+ }
+}

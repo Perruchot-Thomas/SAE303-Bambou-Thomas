@@ -1,0 +1,92 @@
+[
+ {
+  "modele": "gemma-3-4b",
+  "classe": "A",
+  "taille_70_milliards": false,
+  "n_reponses": 474,
+  "mesure_s": 12.38,
+  "estimation_s": 32.32,
+  "mesure_wh": 0.03,
+  "estimation_wh_1000_tokens": 0.08
+ },
+ {
+  "modele": "gemma-3-27b",
+  "classe": "B",
+  "taille_70_milliards": false,
+  "n_reponses": 475,
+  "mesure_s": 18.15,
+  "estimation_s": 44.56,
+  "mesure_wh": 0.05,
+  "estimation_wh_1000_tokens": 0.11
+ },
+ {
+  "modele": "mistral-nemo-2407",
+  "classe": "A",
+  "taille_70_milliards": false,
+  "n_reponses": 292,
+  "mesure_s": 8.35,
+  "estimation_s": 14.06,
+  "mesure_wh": 0.02,
+  "estimation_wh_1000_tokens": 0.09
+ },
+ {
+  "modele": "Apertus-8B-Instruct-2509",
+  "classe": "A",
+  "taille_70_milliards": false,
+  "n_reponses": 7,
+  "mesure_s": 7.83,
+  "estimation_s": 19.19,
+  "mesure_wh": 0.02,
+  "estimation_wh_1000_tokens": 0.09
+ },
+ {
+  "modele": "Apertus-70B-Instruct-2509",
+  "classe": "C",
+  "taille_70_milliards": true,
+  "n_reponses": 164,
+  "mesure_s": 251.11,
+  "estimation_s": 157.18,
+  "mesure_wh": 0.7,
+  "estimation_wh_1000_tokens": 0.66
+ },
+ {
+  "modele": "qwen3-30b-a3b",
+  "classe": "B",
+  "taille_70_milliards": false,
+  "n_reponses": 43,
+  "mesure_s": 13.46,
+  "estimation_s": 36.19,
+  "mesure_wh": 0.04,
+  "estimation_wh_1000_tokens": 0.08
+ },
+ {
+  "modele": "glm-4.5",
+  "classe": "C",
+  "taille_70_milliards": false,
+  "n_reponses": 52,
+  "mesure_s": 441.15,
+  "estimation_s": 1463.34,
+  "mesure_wh": 1.23,
+  "estimation_wh_1000_tokens": 1.89
+ },
+ {
+  "modele": "glm-4.6",
+  "classe": "C",
+  "taille_70_milliards": false,
+  "n_reponses": 29,
+  "mesure_s": 458.48,
+  "estimation_s": 1377.5,
+  "mesure_wh": 1.27,
+  "estimation_wh_1000_tokens": 1.89
+ },
+ {
+  "modele": "deepseek-r1-distill-llama-70b",
+  "classe": "C",
+  "taille_70_milliards": true,
+  "n_reponses": 117,
+  "mesure_s": 17.83,
+  "estimation_s": 139.66,
+  "mesure_wh": 0.05,
+  "estimation_wh_1000_tokens": 0.66
+ }
+]
