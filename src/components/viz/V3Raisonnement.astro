@@ -1,6 +1,101 @@
 ---
-// CONTRAT : ce composant est écrit par la branche feature/visus-methode.
-// Il est importé par les pages de la branche Intro-structure. Ne pas changer son nom ni ses props (aucune).
+// V3 · Route d'export A : rendu au BUILD, HTML/CSS statique sans JavaScript.
+// Pourquoi : lecture comparative de 22 barres, aucune interaction ; le lecteur n'a rien à régler.
+import { raisonnement } from "../../lib/donnees.js";
+import { facteur, posFacteur } from "../../lib/format.js";
+
+const ligne = (d, groupe) => {
+  const p = posFacteur(d.facteur), un = 25;
+  return { ...d, groupe, l: Math.min(p, un), w: Math.max(0.6, Math.abs(p - un)), v: facteur(d.facteur) };
+};
+const lab = raisonnement.laboratoire.map((d) => ligne(d, "lab"));
+const conv = raisonnement.conversations.map((d) => ligne(d, "conv"));
+const reguliers = lab.filter((d) => !d.ecarte);
+const alt = `Graphique de barres horizontales en deux groupes sur la même échelle. Laboratoire (${lab.length} modèles) : de ${facteur(Math.min(...reguliers.map((d) => d.facteur)))} à ${facteur(Math.max(...reguliers.map((d) => d.facteur)))}, un modèle à ×1. Conversations (${conv.length} modèles) : de ${facteur(Math.min(...conv.map((d) => d.facteur)))} à ${facteur(Math.max(...conv.map((d) => d.facteur)))}.`;
+const graduations = [[0, "×0,1"], [25, "×1"], [50, "×10"], [75, "×100"], [100, "×1 000"]];
 ---
 
-<p>Visualisation à venir (V3Raisonnement).</p>
+<figure class="viz" aria-labelledby="v3-legende">
+  <div class="lire">
+    <strong>Comment lire ce graphique</strong>
+    <p>
+      Chaque barre compare un même modèle avec et sans raisonnement (le modèle écrit ses étapes de réflexion avant de répondre). Le trait vertical marque ×1&nbsp;: le raisonnement n'y change rien.
+      Une barre vers la droite signifie «&nbsp;consomme plus&nbsp;», vers la gauche «&nbsp;consomme moins&nbsp;». Les deux groupes partagent la même échelle, qui grandit par paliers.
+    </p>
+  </div>
+  <p class="sr-only">{alt}</p>
+
+  <div class="groupe">
+    <strong class="titre"><span class="carre" style="background:var(--data-mesure, #6a3fd9)"></span>En laboratoire · mesuré · {lab.length} modèles</strong>
+    <ul role="list">
+      {lab.map((d) => (
+        <li class="rang">
+          <span class="nom">{d.modele}{d.ecarte && <small> (écarté de la fourchette)</small>}</span>
+          <span class="piste"><span class="un"></span><span class="barre" data-bar="x" style={`left:${d.l}%;width:${d.w}%;background:var(--data-mesure, #6a3fd9)`}></span></span>
+          <span class="valeur">{d.v}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="groupe">
+    <strong class="titre"><span class="carre" style="background:var(--data-estime, #e0457b)"></span>Dans les conversations · estimé · {conv.length} modèles</strong>
+    <ul role="list">
+      {conv.map((d) => (
+        <li class="rang">
+          <span class="nom">{d.modele}</span>
+          <span class="piste"><span class="un"></span><span class="barre" data-bar="x" style={`left:${d.l}%;width:${d.w}%;background:var(--data-estime, #e0457b)`}></span></span>
+          <span class="valeur">{d.v}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="rang axe" aria-hidden="true">
+    <span class="nom"></span>
+    <span class="graduations">
+      {graduations.map(([p, label]) => <span class={p === 25 ? "un-label" : ""} style={`left:${p}%`}>{label}</span>)}
+      <span class="sens gauche">← consomme moins</span><span class="sens droite">consomme plus →</span>
+    </span>
+    <span class="valeur"></span>
+  </div>
+
+  <figcaption id="v3-legende">
+    Sources&nbsp;: AI Energy Score (mesuré, décembre 2025), Compar:IA (estimé, tokens médians des réponses avec et sans raisonnement, modèles ayant au moins 10 réponses de chaque sorte).
+    Échelle logarithmique. Les deux groupes ne portent pas sur les mêmes modèles.
+  </figcaption>
+</figure>
+
+<style>
+  .viz { margin: 40px 0 0; padding-top: 20px; border-top: 3px solid var(--color-ink, #2a1475); display: flex; flex-direction: column; gap: 20px; }
+  .lire { max-width: 760px; display: flex; flex-direction: column; gap: 4px; }
+  .lire strong { font-size: 15px; }
+  .lire p { margin: 0; font-size: 16px; color: #333; }
+  .groupe { display: flex; flex-direction: column; gap: 7px; }
+  .groupe ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .titre { display: flex; align-items: center; gap: 8px; font-size: 16px; margin-bottom: 4px; }
+  .carre { width: 12px; height: 12px; display: inline-block; }
+  .rang { display: grid; grid-template-columns: minmax(150px, 1fr) 4fr 84px; gap: 10px 20px; align-items: center; }
+  .nom { font-size: 16px; }
+  .nom small { color: #555; font-size: 13px; }
+  .piste { position: relative; display: block; height: 18px; }
+  .un { position: absolute; left: 25%; top: -4px; bottom: -4px; width: 1px; background: #111; }
+  .barre { position: absolute; top: 0; bottom: 0; animation: pousse 1.1s cubic-bezier(.2, .7, .2, 1) both; }
+  .valeur { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .graduations { position: relative; display: block; height: 48px; border-top: 1px solid #111; font-size: 13px; color: #555; }
+  .graduations span { position: absolute; top: 5px; transform: translateX(-50%); }
+  .graduations span:first-child { transform: none; }
+  .graduations span:nth-child(5) { transform: translateX(-100%); }
+  .graduations .un-label { color: #111; font-weight: 600; }
+  .graduations .sens { top: 26px; transform: none; }
+  .graduations .gauche { left: 0; }
+  .graduations .droite { right: 0; left: auto; }
+  figcaption { padding-top: 10px; border-top: 1px solid #e3e3e3; font-size: 14px; color: #555; }
+  @keyframes pousse { from { transform: scaleX(0); transform-origin: 25% center; } }
+  @media (prefers-reduced-motion: reduce) { .barre { animation: none; } }
+  @media (max-width: 640px) {
+    .rang { grid-template-columns: 1fr 64px; }
+    .nom { grid-column: 1 / -1; }
+    .axe .nom { display: none; }
+  }
+</style>
