@@ -3,7 +3,7 @@
 import "../styles/global.css";
 import { pages } from "../lib/pages.js";
 
-const { title = "L'électricité de l'IA", description = "", current = "" } = Astro.props;
+const { title = "IA de l'électricité dans l'air", description = "", current = "" } = Astro.props;
 const i = pages.findIndex((p) => p.id === current);
 const prev = i > 0 ? pages[i - 1] : null;
 const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
@@ -36,7 +36,7 @@ const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
       <div class="entete-haut">
         <a href="/" class="marque">
           <span aria-hidden="true" class="pastilles"></span>
-          <span>L'électricité de l'IA</span>
+          <span>IA de l'électricité dans l'air</span>
         </a>
         <span class="credit">Open Data University × ADEME</span>
       </div>
@@ -81,9 +81,12 @@ const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
   .saut:focus { top: 8px; }
   .entete { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid var(--color-line); }
   .entete-haut { max-width: 1320px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 52px; border-bottom: 1px solid var(--color-soft); }
-  .marque { font-family: var(--font-serif); font-weight: 700; font-size: 20px; color: var(--color-ink); text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 16px; }
+  .marque { font-family: var(--font-serif); font-weight: 700; font-size: clamp(16px, 4.6vw, 20px); color: var(--color-ink); text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 16px; min-width: 0; }
+  .marque span:last-child { overflow: hidden; text-overflow: ellipsis; }
+  .pastilles { flex: none; }
   .pastilles { width: 14px; height: 14px; border-radius: 50%; background: #8e6ff0; box-shadow: 8px 0 0 #6a3fd9; }
   .credit { font-size: 13px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 640px) { .credit { display: none; } }
   .chapitres { max-width: 1320px; margin: 0 auto; padding: 0 8px; display: flex; overflow-x: auto; scrollbar-width: none; }
   .chapitre { position: relative; isolation: isolate; flex: none; display: flex; align-items: center; gap: 6px; height: 46px; padding: 0 12px; font-size: 15px; font-weight: 500; color: #111; text-decoration: none; white-space: nowrap; }
   .chapitre:first-child { margin-left: auto; }
