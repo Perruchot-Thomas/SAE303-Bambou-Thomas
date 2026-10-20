@@ -1,11 +1,25 @@
 ---
-// CONTRAT : propriété de la branche Intro-structure (version de départ minimale).
-// Props : badge (ex. "Visualisation 1 sur 4"), title, num (grand chiffre décoratif, optionnel). Slot par défaut : phrase d'accroche.
+// Bandeau d'ouverture d'une page. Props : badge, title, num (grand chiffre décoratif). Slot : phrase d'accroche.
 const { badge, title, num } = Astro.props;
 ---
 
-<header>
-  <p>{badge}</p>
-  <h1>{title}</h1>
-  <div><slot /></div>
-</header>
+<div class="page">
+  <header class="hero">
+    <span aria-hidden="true" class="cercle"></span>
+    {num ? <span aria-hidden="true" class="grand-num">{num}</span> : <span aria-hidden="true" class="grand-rond"></span>}
+    <span class="badge">{badge}</span>
+    <h1>{title}</h1>
+    <div class="lead"><slot /></div>
+  </header>
+</div>
+
+<style>
+  .hero { position: relative; isolation: isolate; overflow: hidden; border-radius: 28px; background: var(--color-soft); padding: clamp(28px, 5vw, 64px) clamp(24px, 5vw, 64px); display: flex; flex-direction: column; gap: 18px; }
+  .cercle { position: absolute; z-index: -1; right: -50px; top: -50px; width: 160px; height: 160px; border-radius: 50%; border: 2px solid #8e6ff0; }
+  .grand-num { position: absolute; z-index: -1; right: clamp(16px, 4vw, 56px); bottom: -0.24em; font-family: var(--font-serif); font-weight: 700; font-size: clamp(170px, 24vw, 320px); line-height: 1; color: var(--color-line); }
+  .grand-rond { position: absolute; z-index: -1; right: -70px; bottom: -110px; width: 280px; height: 280px; border-radius: 50%; background: var(--color-line); }
+  .badge { align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-primary); }
+  h1 { margin: 0; font-family: var(--font-serif); font-weight: 600; font-size: clamp(32px, 4.6vw, 52px); line-height: 1.1; letter-spacing: -0.01em; color: var(--color-ink); max-width: 780px; text-wrap: balance; }
+  .lead { font-family: var(--font-serif); font-size: clamp(20px, 2vw, 23px); line-height: 1.45; color: #2e2650; max-width: 720px; text-wrap: pretty; }
+  .lead :global(p) { margin: 0; }
+</style>

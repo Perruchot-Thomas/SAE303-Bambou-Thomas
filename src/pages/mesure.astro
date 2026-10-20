@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import Retenir from "../components/ui/Retenir.astro";
+import V2Mesure from "../components/viz/V2Mesure.astro";
+import { resumes } from "../lib/resumes.js";
+---
+
+<Layout title="La mesure et l'estimation disent-elles la même chose ? · L'électricité de l'IA" description={resumes.v2.lead} current="mesure">
+  <PageHero badge="Visualisation 2 sur 4" title="La mesure et l'estimation disent-elles la même chose ?" num="2">
+    <p>{resumes.v2.lead}</p>
+  </PageHero>
+  <div class="page" style="padding-top:0">
+    <V2Mesure />
+    <Retenir>
+      <Fragment slot="retenir">L'estimation se fonde surtout sur la taille du modèle&nbsp;: deux modèles de même taille reçoivent donc le même chiffre. Mesurés, ils peuvent consommer très différemment.</Fragment>
+      <Fragment slot="limite">Il ne compare que deux modèles. Il ne dit pas lequel des deux chiffres est le plus proche de ce que consomment vos conversations réelles.</Fragment>
+    </Retenir>
+  </div>
+</Layout>

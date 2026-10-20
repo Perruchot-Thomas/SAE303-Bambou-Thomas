@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import { resumes } from "../lib/resumes.js";
+
+const c = resumes.conclusion;
+const reflexes = [
+  ["Mesuré ou estimé ?", `Pour deux modèles de même taille, mesure et estimation peuvent différer d'un facteur ${c.mesureEstimation.replace("×", "")}.`],
+  ["Quel modèle ?", "Selon le modèle, et selon qu'il raisonne ou non, la consommation change du tout au tout."],
+  ["Quelle tâche ?", `D'une tâche à l'autre, on passe de ${c.tacheMin} à ${c.tacheMax} d'ampoule LED.`],
+];
+---
+
+<Layout title="Conclusion · L'électricité de l'IA" description="Il n'existe pas de chiffre unique fiable pour dire qu'une requête consomme X Wh : trois réflexes devant un chiffre." current="conclusion">
+  <PageHero badge="Conclusion" title="Il n'existe pas de chiffre unique fiable pour dire qu'une requête consomme X Wh.">
+    <p>Devant un chiffre sur la consommation d'une IA, trois réflexes&nbsp;:</p>
+  </PageHero>
+  <div class="page" style="padding-top:0">
+    <ol class="reflexes">
+      {reflexes.map(([titre, texte], i) => (
+        <li>
+          <span class="rond" aria-hidden="true">{i + 1}</span>
+          <div><h2>{titre}</h2><p>{texte}</p></div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Layout>
+
+<style>
+  .reflexes { margin: 40px 0 0; padding: 0; list-style: none; border-top: 2px solid #111; max-width: 900px; }
+  li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 20px; padding: 24px 0; border-bottom: 1px solid #e3e3e3; }
+  .rond { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: var(--color-ink); color: #fff; font-family: var(--font-serif); font-weight: 700; font-size: 24px; line-height: 1; }
+  li div { display: flex; flex-direction: column; gap: 6px; }
+  h2 { margin: 0; font-family: var(--font-serif); font-weight: 700; font-size: 26px; line-height: 1.2; }
+  p { margin: 0; }
+</style>

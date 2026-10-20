@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import Retenir from "../components/ui/Retenir.astro";
+import V3Raisonnement from "../components/viz/V3Raisonnement.astro";
+import { resumes } from "../lib/resumes.js";
+---
+
+<Layout title="Que change le raisonnement ? · L'électricité de l'IA" description={resumes.v3.lead} current="raisonnement">
+  <PageHero badge="Visualisation 3 sur 4" title="Que change le raisonnement ?" num="3">
+    <p>{resumes.v3.lead}</p>
+  </PageHero>
+  <div class="page" style="padding-top:0">
+    <V3Raisonnement />
+    <Retenir>
+      <Fragment slot="retenir">En laboratoire, le raisonnement fait exploser la consommation. Dans les vraies conversations, l'effet est beaucoup plus modeste, et parfois inverse.</Fragment>
+      <Fragment slot="limite">Il n'explique pas pourquoi les deux sources divergent&nbsp;: les questions posées, la longueur des réponses et la méthode de calcul ne sont pas les mêmes. Les modèles ne figurent pas tous dans les deux sources.</Fragment>
+    </Retenir>
+  </div>
+</Layout>

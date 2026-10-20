@@ -1,9 +1,27 @@
 ---
-// CONTRAT : propriété de la branche Intro-structure (version de départ minimale).
-// Deux encadrés sous chaque visualisation : slot "retenir" et slot "limite".
+// Deux encadrés sous chaque visualisation. Slots nommés : « retenir » et « limite ».
 ---
 
-<section>
-  <div><h2>Ce qu'il faut retenir</h2><slot name="retenir" /></div>
-  <div><h2>Ce que ce graphique ne dit pas</h2><slot name="limite" /></div>
-</section>
+<div class="deux">
+  <section class="retenir">
+    <h2><span aria-hidden="true" class="point"></span>Ce qu'il faut retenir</h2>
+    <p><slot name="retenir" /></p>
+  </section>
+  <section class="limite">
+    <h2>Ce que ce graphique ne dit pas</h2>
+    <p><slot name="limite" /></p>
+  </section>
+</div>
+
+<style>
+  .deux { margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 28px 48px; max-width: 1000px; }
+  section { display: flex; flex-direction: column; gap: 10px; padding: 28px; border-radius: 24px; }
+  h2 { margin: 0; display: flex; align-items: center; gap: 10px; font-family: var(--font-serif); font-weight: 700; font-size: 22px; }
+  p { margin: 0; }
+  .retenir { background: var(--color-ink); color: #fff; }
+  .retenir h2 { color: #fff; }
+  .point { width: 12px; height: 12px; border-radius: 50%; background: var(--color-accent); }
+  .limite { border: 2px dashed #8e6ff0; background: #fbfaff; }
+  .limite h2 { color: var(--color-ink); }
+  .limite p { color: #333; }
+</style>

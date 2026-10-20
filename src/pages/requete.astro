@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/ui/PageHero.astro";
+import Retenir from "../components/ui/Retenir.astro";
+import V1Requete from "../components/viz/V1Requete.astro";
+import { resumes } from "../lib/resumes.js";
+---
+
+<Layout title="Une requête, c'est combien ? · L'électricité de l'IA" description={resumes.v1.lead} current="requete">
+  <PageHero badge="Visualisation 1 sur 4" title="Une requête, c'est combien ?" num="1">
+    <p>{resumes.v1.lead}</p>
+  </PageHero>
+  <div class="page" style="padding-top:0">
+    <V1Requete />
+    <Retenir>
+      <Fragment slot="retenir">L'écart entre la tâche la plus légère et la plus lourde est immense. Parler de «&nbsp;la&nbsp;» consommation d'une requête n'a pas de sens sans dire de quelle tâche il s'agit.</Fragment>
+      <Fragment slot="limite">Ces mesures sont faites sur une machine de test, avec des modèles ouverts. Elles ne disent pas ce que consomment les services que vous utilisez au quotidien, ni l'électricité dépensée pour entraîner les modèles.</Fragment>
+    </Retenir>
+  </div>
+</Layout>
