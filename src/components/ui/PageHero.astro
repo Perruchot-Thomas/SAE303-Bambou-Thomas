@@ -1,0 +1,11 @@
+---
+// CONTRAT : propriété de la branche Intro-structure (version de départ minimale).
+// Props : badge (ex. "Visualisation 1 sur 4"), title, num (grand chiffre décoratif, optionnel). Slot par défaut : phrase d'accroche.
+const { badge, title, num } = Astro.props;
+---
+
+<header>
+  <p>{badge}</p>
+  <h1>{title}</h1>
+  <div><slot /></div>
+</header>

@@ -19,3 +19,8 @@ La page `/methode` est écrite côté visus ; le layout lui donne la structure v
 
 ## Données
 Les fichiers bruts du défi ne sont jamais dans le dépôt. `node scripts/prepare-data.mjs <dossier-brut>` génère les JSON filtrés dans `public/data/`.
+
+## Contrats supplémentaires
+- `src/components/ui/PageHero.astro` et `Retenir.astro` : écrits côté `Intro-structure`, utilisés aussi par `methode.astro`.
+- `src/lib/resumes.js` : écrit côté visus (phrases calculées depuis les données), lu par les pages.
+- Page `/usage` : un élément `<p id="usage-resume" aria-live="polite">` dans l'accroche est mis à jour par `V4Usage`.

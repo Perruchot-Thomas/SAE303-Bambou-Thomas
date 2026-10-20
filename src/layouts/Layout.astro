@@ -1,26 +1,21 @@
 ---
+// CONTRAT : propriété de la branche Intro-structure (version de départ minimale).
+// Props : title (titre de la page), description, current (id de la page courante : accueil, requete, mesure, raisonnement, usage, conclusion, methode).
 import "../styles/global.css";
+const { title = "L'électricité de l'IA", description = "", current = "" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <meta name="description" content={description} />
+    <title>{title}</title>
   </head>
-  <body>
-    <slot />
+  <body data-page={current}>
+    <main><slot /></main>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>
