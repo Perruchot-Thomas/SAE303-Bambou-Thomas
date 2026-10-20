@@ -3,7 +3,7 @@
 import "../styles/global.css";
 import { pages } from "../lib/pages.js";
 
-const { title = "IA de l'électricité dans l'air", description = "", current = "" } = Astro.props;
+const { title = "Comprendre l'électricité de l'IA", description = "", current = "" } = Astro.props;
 const i = pages.findIndex((p) => p.id === current);
 const prev = i > 0 ? pages[i - 1] : null;
 const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
@@ -36,7 +36,7 @@ const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : null;
       <div class="entete-haut">
         <a href="/" class="marque">
           <span aria-hidden="true" class="pastilles"></span>
-          <span>IA de l'électricité dans l'air</span>
+          <span>Comprendre l'électricité de l'IA</span>
         </a>
         <span class="credit">Open Data University × ADEME</span>
       </div>
